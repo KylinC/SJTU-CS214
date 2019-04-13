@@ -1,0 +1,259 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{amsmath,amscd,amsbsy,amssymb,latexsym,url,bm,amsthm}
+\usepackage{epsfig,graphicx,subfigure}
+\usepackage{enumitem,balance}
+\usepackage{wrapfig}
+\usepackage{mathrsfs,euscript}
+\usepackage[usenames]{xcolor}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\usepackage{indentfirst}
+
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+\hypersetup{colorlinks=true,linkcolor=black}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{solution}{Solution}
+\newtheorem{definition}{Definition}
+\theoremstyle{definition}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand{\postscript}[2]
+ {\setlength{\epsfxsize}{#2\hsize}
+  \centerline{\epsfbox{#1}}}
+
+\renewcommand{\baselinestretch}{1.0}
+
+\setlength{\oddsidemargin}{-0.365in}
+\setlength{\evensidemargin}{-0.365in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{10.1in}
+\setlength{\textwidth}{7in}
+\makeatletter \renewenvironment{proof}[1][Proof] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+\makeatletter
+\renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+% claim_environment
+\newenvironment{claim}[1]{\par\noindent\underline{Claim:}\space#1}{}
+\newenvironment{claimproof}[1]{\par\noindent\underline{Proof:}\space#1}{\hfill $\blacksquare$}
+
+\begin{document}
+\noindent
+
+%========================================================================
+\noindent\framebox[\linewidth]{\shortstack[c]{
+\Large{\textbf{Lab01-Algorithm Analysis}}\vspace{1mm}\\
+CS214-Algorithm and Complexity, Xiaofeng Gao, Spring 2019.}}
+\begin{center}
+\footnotesize{\color{red}$*$ If there is any problem, please contact TA Mingran Peng. Also please use English in homework.}
+
+% Please write down your name, student id and email.
+\footnotesize{\color{blue}$*$ Name:Kylin Chen  \quad Student ID:517030910155 \quad Email: k1017856853@icloud.com}
+\end{center}
+
+\begin{enumerate}
+
+
+\item Read Algorithm \ref{Alg-selectionsort} and Algorithm \ref{Alg-cocktailsort} carefully. \par
+
+\begin{minipage}[t]{0.45\textwidth}
+\begin{algorithm}[H]
+\KwIn{An array $A[1,\cdots,n]$}
+\KwOut{$A[1,\cdots,n]$ sorted nonincreasingly}
+\BlankLine
+\caption{SelectionSort}
+\label{Alg-selectionsort}
+\BlankLine
+	$i\leftarrow 1$\;
+	\For{$i\leftarrow 1$ \textbf{to} $n-1$}{
+		$max\leftarrow A[i];pos\leftarrow i$\;
+		\For{$j\leftarrow i+1$ \textbf{to} $n$}{
+			\If{$A[j] > max$}{
+				$max\leftarrow A[j]$\;
+				$pos\leftarrow j$\;
+			}
+		
+		}
+		swap $A[pos]$ and $A[i]$\;
+	}
+
+\end{algorithm}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.45\textwidth}
+\begin{algorithm}[H]
+\KwIn{An array $A[1,\cdots,n]$}
+\KwOut{$A[1,\cdots,n]$ sorted nonincreasingly}
+\BlankLine
+\caption{CocktailSort}
+\label{Alg-cocktailsort}
+\BlankLine
+	$i\leftarrow 1;$ $j\leftarrow n;$$sorted\leftarrow false$\;
+	\While{\textbf{not} sorted}{
+		$sorted \leftarrow true$\;
+		\For{$k\leftarrow i$ \textbf{to} $j-1$}{
+			\If{$A[k] < A[k+1]$}{
+				swap $A[k]$ and $A[k+1]$\;
+				$sorted\leftarrow false$\;
+			}
+		}
+		$j\leftarrow j-1$\;
+		
+
+		\For{$k\leftarrow j$ \textbf{downto} $i+1$}{
+			\If{$A[k-1] < A[k]$}{
+				swap $A[k-1]$ and $A[k]$\;
+				$sorted\leftarrow false$\;
+			}
+		}
+		$i\leftarrow i+1$\;
+	}
+\end{algorithm}
+\end{minipage}
+
+   
+Fill in the blanks and explain your answers. You need to answer when the best case and the worst case happen. {\color{blue} (Hint: if it's both $O(g)$ and $\Omega(g)$, just answer $\Theta(g)$)}
+\begin{table}[!h]
+
+\label{Tab-compare}
+	\centering
+	\begin{tabular}{c|c| c }
+		\toprule[2pt]
+		\textbf{Algorithm} & \textbf{Time Complexity} & \textbf{Space Complexity} \\
+		\hline
+		\hline
+		$InsertionSort$& $O(n^2)$, $\Omega(n)$  &  $\Theta(1)$  \\
+		
+		$CocktailSort$& $O(n^2)$, $\Omega(n)$  & $\Theta(1)$  \\
+
+		$SelectionSort$ & $\Theta(n^2)$  & $\Theta(1)$  \\
+		\bottomrule[2pt]
+
+
+	\end{tabular}
+\end{table}
+    \begin{solution}
+    \renewcommand{\qedsymbol}{}
+        
+        For a comparison algorithm, it costs the most time to operate comparision. Therefore, we assume each comparision operation takes 
+        $O(1)$ time.\item
+        \textbf{Claim 1(CocktailSort):} The number of comparisons carried out by Algorithm CocktailSort is at least $$(n-1)+(n-2) = 2n-3$$ and at most $$\sum_{i=1}^{n-1} i = (n-1)+(n-2)+\cdots +3+2+1 = \frac{n(n-1)}{2}$$.
+        \item
+        \begin{itemize}
+        \item [1)]The best case is that \textbf{case 1.} The input array already sorted nonincreasingly (in this case, the bool value\textsl{sorted} is true, and the comparisons only last two rounds.) or \textbf{case 2.} Only the largest and smallest elements are not sorted (for example, array[2,5,1,3,4] have only the smallest elements 1 and largest 5 nonsorted), if we thinking about exchanging two elements' value takes $O(1)$, \textbf{case 1} will be the best, and the time complexity is $\Omega(n)$.\par
+        \item [2)]The worst case is that the input array already sorted decreasingly, in this case, the bool value\textsl{sorted} always keeps false until all comparisions down.Therefore, the worst time complexity is $O(n^2)$.\par
+        \item [3)]Whether input is sorted or not, CocktailSort Algorithm only takes constant extra space, so its space complexity will be $\Theta(1)$. 
+        \end{itemize}
+        \item
+
+        \textbf{Claim 2(SelectionSort):} For SelectionSort, comparision statements run until the end of the loop. 
+        The number of all comparision steps is $$\sum_{i=2}^{n-1} i = (n-1)+(n-2)+\cdots +3+2 = \frac{(n+1)(n-2)}{2}$$
+        it means the time complexity of SelectionSort is both $O(n^2)$ and $\Omega(n^2)$,  just represents $\Theta(n^2)$. 
+        \item If we assume each exchanging operation takes $O(1)$, the best case happens when the input array is well sorted nonincreasingly, and worst case happens when input array is in reverse order(sorted increasingly).
+        \item As for space complexity, SelectionSort only takes constant extra space, so it's $\Theta(1)$.
+    \end{solution}
+
+    \item
+    Let us assume that you have learned two type of data structures: \textbf{Stack} and \textbf{Queue}. \textbf{Stack} has two operations: $push$ and $pop$, while \textbf{Queue} also has two operations: $enqueue$ and $dequeue$.\par
+Now you have two \textbf{Stacks}, how can you use them to simulate a \textbf{Queue}?
+\begin{enumerate}
+\item Briefly explain your approach. (Pseudo code is not needed.)
+\item Give the time complexity of $enqueue$ and $dequeue$ operations of the simulated \textbf{Queue}. Use \textbf{potential function} for amortized analysis.
+\end{enumerate}
+    \begin{solution}
+    \renewcommand{\qedsymbol}{}
+        \item
+        \begin{itemize}
+        \item [(a)] There are two approaches to achieve Queue simulation, which corresponding two types of
+        algorithm complexity. They can be summed up as follows:
+        \item
+            \begin{itemize}
+            	Now that we have two stacks, we define them as A and B. For any $enqueue$ operation, we $push$ the element in stack A. For any $dequeue$ operation, we devide it into two cases to discuss: 
+            	\begin{itemize}
+            	\item\textbf{(1.} If stack B is empty, we $pop$ one element from stack A, then we $push$ the just-popped element into stack B, repeat this operation until stack A is empty. finally, we $pop$ one element from B as $dequeue$ function returning value.\par
+            	\textbf{(2.} If stack B is not empty, we $pop$ the stack B and get one element as $deque$ function returning value.
+            	\end{itemize}
+            \end{itemize}
+            \item
+            \begin{itemize}
+            	Equally, we define these provided two stacks as A and B. For any $dequeue$ operation, we just $pop$ one element from stack A as its returning value. For any $enqueue$ operation, we have some basic work to do: 
+            	\item
+                \begin{itemize}
+            	\textbf{(1.} Repeatedly $pop$ one element from stack A and $push$ it into stack B until A is empty. \par
+            	\textbf{(2.} For the $enqueue$ element, we $push$ it into empty stack A, then stack A has only one element.\par
+            	\textbf{(3.} Repeatedly $pop$ one element from stack B and $push$ it into stack A until B is empty. 
+            	\end{itemize}
+            	\par
+            \end{itemize}
+        \item [(b)] In the solution (a), we give two methods to achieve $Stack-Queue$ simulation, which have two types of algorithm complexity. We will give the analysis and summarizing one by one.
+        \item
+            \begin{itemize}
+            For the first method, we have two parameter, we define the number of elements in stack A is $N_A$ as well as number of B is $N_B$.\item
+            \textbf{Potential Function:} Let $\phi(S)$ denotes the number of items in both stack. That is to say,  $\phi(S) = N_A + N_B $.\par
+            \textbf{Correctness:} $\phi(S_i) \geq 0 = \phi(S_0)$ for any i; $\phi(S_i) - \phi(S_0) \geq 0$ for any i.
+            \par
+            \textbf{Operation Complexity:}
+                \item
+                \begin{itemize}
+                	\textbf{Enqueue:} 
+                	$\phi(S_i) - \phi(S_{i-1})= 1$ ;
+                	$\hat{C_i} = C_i + \phi(S_i) - \phi(S_{i-1}) = 2$ ;
+                	\item
+                	\textbf{Dequeue:}
+                	$\phi(S_i) - \phi(S_{i-1})= -1$ ;
+                	$\hat{C_i} = C_i + \phi(S_i) - \phi(S_{i-1}) = 0$
+                \end{itemize}
+                \par
+                Thus, starting from an empty $Queue$, any sequence of $n_1$ $enqueue$, $n_2$ $dequeue$ operations takes at most
+                $$T(n) = \sum_{i=1}^{n} C_i \leq 
+                \sum_{i=1}^{n} \hat{C_i} = 2n_1 $$ Here $n = n_1+n_2$.	
+                \par\textbf{Extra-analysis:} On the other hand, we can find that operation $enqueue$ always takes $O(1)$. However, in order to execute operation $dequeue$, we need $pop$ it from stack A and $push$ it into stack B, so it means we should take extra two steps to achieve the goal. Therefore, operation $dequeue$ takes $O(3)$ averagely.
+            \end{itemize}\item
+            \begin{itemize}
+            For the second method, we can find stack B only provide assistance because B is always empty after every step. We assume the number of elements in stack A is $N$.\par
+            \textbf{Potential Function:} since the $dequeue$  only takes 1 or constant steps, we think its potential function is C (C is a constant). But for $enqueue$ operation, we assume N is its potential function. That is, \par
+            $$ \phi(S)=\left\{
+            \begin{array}{rcl}
+            N       &      & {,enqueue,}\\
+            C     &      & {,dequeue.}
+            \end{array} \right. $$
+            \textbf{Correctness:} $\phi(S_i) \geq 0 = \phi(S_0)$ for any i.\par
+            \textbf{Operation Complexity:}
+                \item
+                \begin{itemize}
+                	\textbf{Enqueue:} 
+                	$\phi(S_i) - \phi(S_{i-1})= 1$ ;
+                	$\hat{C_i} = C_i + \phi(S_i) - \phi(S_{i-1}) = 2$ ;
+                	\item
+                	\textbf{Dequeue:}
+                	$\phi(S_i) - \phi(S_{i-1})= 0$ ;
+                	$\hat{C_i} = C_i + \phi(S_i) - \phi(S_{i-1}) = 1$
+                \end{itemize}
+                \par
+            \textbf{Key Observation:} \#Enqueue $\geq$ \#Dequeue\par
+            Thus, starting from an empty $Queue$, any sequence of $n_1$ $enqueue$, $n_2$ $dequeue$ operations takes at most
+            $$T(n) = \sum_{i=1}^{n} C_i \leq 
+            \sum_{i=1}^{n} \hat{C_i} = 2 \times n_1 + 1 \times n_2 \leq 3n_1 $$ Here $n = n_1+n_2$.	
+            \par\textbf{Extra-analysis:} On the other hand, we can find that operation $dequeue$ always takes $O(1)$. However, in order to execute operation $dequeue$, we need $pop$ all elements from stack A and $push$ them into stack B in order, and repeat it again, so it means we should take extra 4 steps to achieve the goal. Therefore, operation $dequeue$ takes $O(6)$ averagely.
+            \end{itemize}
+        \end{itemize}
+        \item
+    \end{solution}
+
+
+\end{enumerate}
+
+\vspace{20pt}
+
+\textbf{Remark:} You need to include your .pdf and .tex files in your uploaded .rar or .zip file.
+%========================================================================
+\end{document}
+

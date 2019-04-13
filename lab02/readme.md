@@ -1,0 +1,1 @@
+string.exe can use X.txt and Y.txt to generate OUT.txt with path output.
