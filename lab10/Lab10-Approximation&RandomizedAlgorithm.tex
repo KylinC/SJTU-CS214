@@ -1,0 +1,97 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{ctex}
+\usepackage{amsmath,amscd,amsbsy,amssymb,latexsym,url,bm,amsthm}
+\usepackage{epsfig,graphicx,subfigure}
+\usepackage{enumitem,balance}
+\usepackage{wrapfig}
+\usepackage{mathrsfs,euscript}
+\usepackage[usenames]{xcolor}
+\usepackage{hyperref}
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+\hypersetup{colorlinks=true,linkcolor=black}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{exercise}{Exercise}
+\newtheorem*{solution}{Solution}
+\newtheorem{definition}{Definition}
+\theoremstyle{definition}
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+\newcommand{\postscript}[2]
+ {\setlength{\epsfxsize}{#2\hsize}
+  \centerline{\epsfbox{#1}}}
+
+\renewcommand{\baselinestretch}{1.0}
+
+\setlength{\oddsidemargin}{-0.365in}
+\setlength{\evensidemargin}{-0.365in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\headheight}{0in}
+\setlength{\headsep}{0in}
+\setlength{\textheight}{10.1in}
+\setlength{\textwidth}{7in}
+\makeatletter \renewenvironment{proof}[1][Proof] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+\makeatletter
+\renewenvironment{solution}[1][Solution] {\par\pushQED{\qed}\normalfont\topsep6\p@\@plus6\p@\relax\trivlist\item[\hskip\labelsep\bfseries#1\@addpunct{.}]\ignorespaces}{\popQED\endtrivlist\@endpefalse} \makeatother
+
+\begin{document}
+\noindent
+
+%========================================================================
+\noindent\framebox[\linewidth]{\shortstack[c]{
+\Large{\textbf{Lab10-Approximation \& Randomized Algorithm}}\vspace{1mm}\\
+CS214-Algorithm and Complexity, Xiaofeng Gao, Spring 2019.}}
+
+
+\begin{center}
+\footnotesize{\color{red}$*$ If there is any problem, please contact TA Mingran Peng.}\par
+% Please write down your name, student id and email.
+\footnotesize{\color{blue}$*$ Name:\_\_\_\_\_\_\_\_\_  \quad Student ID:\_\_\_\_\_\_\_\_\_ \quad Email: \_\_\_\_\_\_\_\_\_\_\_\_}
+\end{center}
+\begin{enumerate}
+    
+
+\item Given a CNF $\Phi$ with $n$ boolean variables $\{x_i\}_{i=1}^n$ and $m$ clauses, with each clause consisting of $3$ boolean variables. For example $\Phi=C_1\wedge C_2 =(x_1\vee \overline{x_2}\vee \overline{x_4})\wedge (\overline{x_1} \vee \overline{x_2} \vee \overline{x_3})$. Assume that $\Phi$ is satisfiable, the goal is to find the feasible assignment of $\{x_i\}_{i=1}^n$ with \textbf{fewest true boolean variables}.
+\begin{enumerate}
+\item  Please formulate it into integer programming.\par
+\item  Design an approximation algorithm based on deterministing rounding. Choose its approximation ratio and explain. Pseudo code is needed.\par
+\end{enumerate}
+%    \begin{proof}
+%        Uncomment this block to write your proof.
+%    \end{proof}
+\item
+\color{red}(Bonus)\color{black} Suppose there is a sequence of pearls of different color. Color is denoted as $1-m$ and the total number of pearls is $n$. After you read these information and conduct some pre-processing, you need to face lots of of queries.\par
+A query gives two positions $1\leq l\leq r \leq n$, and ask whether there exists a color, that at least half of pearls in $[l,r]$ is such color.\par
+
+\begin{enumerate}
+\item Design a random algorithm to solve this problem. Space complexity of your algorithm should be strictly better than $O(mn)$. Explain your idea briefly, give time complexity for pre-processing and per query, and give space complexity. Your accuray should be better than 99.9\%. \par
+For example, a naive algorithm just read in all pearls as pre-processing. And naively iterate every color and every postion for query. This case, the pre-processing complexity is $O(n)$. For query, it will execute $(r-l)*m$ times, since $r-l$ can achieve $n-1$, so time complexity per query is $O(mn)$. No extra space needed.\par
+\color{blue}(Hint: Random choose some color and examine.)\color{black}
+\item \textbf{Remark:} This question involves a little bit knowledge about online algorithm. The ddl for this lab is 5/27/2019. \par
+Now there are extra operation besides query.\par
+\textbf{Append(c):} Put a peral with color $c$ at the end of sequence.\par
+\textbf{Erase:} Take out the last pearl.\par
+\textbf{Colouration(p,c):} Choose pearl of postion $p$ and change its color to $c$.\par
+Assume that no operation will involve a new color. You may modify your algorithm and show time complexity for each type of operation( include query).\par  
+\color{blue}(Hint: Consider Balanced Binary Tree. Given an element $e$, they can find whether $e$ exists in tree, and how many elements in tree are smaller than $e$, in $O(logn)$ time.)\color{black}
+\end{enumerate} 
+
+%    \begin{proof}
+%        Uncomment this block to write your proof.
+%    \end{proof}
+
+
+    
+
+\end{enumerate}
+
+\vspace{20pt}
+
+\textbf{Remark:} You need to include your .pdf and .tex files in your uploaded .rar or .zip file.
+
+%========================================================================
+\end{document}
