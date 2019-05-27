@@ -59,9 +59,49 @@ CS214-Algorithm and Complexity, Xiaofeng Gao, Spring 2019.}}
 \item  Please formulate it into integer programming.\par
 \item  Design an approximation algorithm based on deterministing rounding. Choose its approximation ratio and explain. Pseudo code is needed.\par
 \end{enumerate}
-%    \begin{proof}
-%        Uncomment this block to write your proof.
-%    \end{proof}
+    \begin{proof}\item
+    \renewcommand{\qedsymbol}{}
+        \begin{itemize}
+        \item [(a)] For every variable $x_{i}$, it equals $1$ iff $x_{i}$ is assigned to $True$, otherwise it's $False$. We can give a universe form for $x_i$ and $\overline{x_i}: z_i$, it satisfy:
+        $$ z_i=\left\{
+            \begin{array}{rcl}
+            x_i       &      & {,x_i,}\\
+            1-x_i     &      & {,\overline{x_i}.}
+            \end{array} \right. $$
+         Then we can give the IP formulate below: \\ \\ \\ \\
+        \textbf{minimize.} $$\sum_{i=1}^{n}x_i $$
+        \textbf{subject.} $$\forall x_i,\ x_i\in \{0,1\} $$
+        $$\forall(i,j,k)\in clause,\ z_i+z_j+z_k\geq 1 $$\\ \\
+        \item [(b)] \textbf{LP-Relaxation:} We first convert IP-problem to LP-problem, we still use $z_{i}$ to represent variable $x_{i} $ and $\overline{x_i} $ while $z_{i}$ can be any number between $0$ and $1$. The we can give the LP-formulation:\\ \\ \\ \\
+        \textbf{minimize.} $$\sum_{i=1}^{n}x_i $$
+        \textbf{subject.} $$\forall x_i,\ 0 \leq x_i\leq 1 $$
+                          $$\forall(i,j,k)\in clause,\ z_i+z_j+z_k\geq 1 $$
+        \\ \textbf{Deterministic Rounding Bound:} For deterministic rounding bound, we can find that for every inequality(clause), there are exactly have three items(elements),it means with the constrain $z_i+z_j+z_k\geq 1$, there exists at least one item in $\{z_i, z_j, z_k\}$ which is greater than $\frac{1}{3} $. So we can use $\frac{1}{3} $ as the deterministic rounding bound, which make every clause $True$ obviously.
+        \\ \\ \textbf{Algorithm:} Therefore, we can use deterministic rounding to design an agorithm as follow:\\
+        \begin{minipage}[t]{0.8\textwidth}
+        \begin{algorithm}[H]
+            \KwIn{$n$ boolean variables $\{x_i\}_{i=1}^n$; $m$ clause;}
+            \KwOut{values of variables $\{x_i\}_{i=1}^n$ which make every clause $True$;}
+            %\BlankLine
+            \caption{3-SAT via LP-Rounding (Deterministic)}
+            \label{ALG1}
+            Find an optimal solution \textbf{$X$} to the LP-relaxation\;
+            \For{ $ \forall x_{i} \in$ \textbf{$X $}}{
+                \If{$x_{i} \geq \frac{1}{3} $}{
+                    round $x_{i}=1 $\;
+                }
+                \Else{round $x_{i}=0 $\;}
+            }
+            return $\{x_i\}_{i=1}^n=\{x_i|x_i=True\ \text{iff}\ x_i=1 \} $\;
+
+        \end{algorithm}
+        \end{minipage}
+        \hfill
+        \\ \\ \\ \textbf{Proof:} \\ \\
+        (1) \textbf{Feasible Solution:} For every clause $c\in C$, must have at least one element $z_{i}$ which is greater than $\frac{1}{3} $(no matter which form it represent, $x_{i}$ or $1-x_i $). So with the deterministic rounding algorithm, it must have all the $m$ clauses is $True$, therefore it get a feasible solution.
+        \\ \\ (2) \textbf{Approximation Ratio:} We first assume that $m$ clause have $3m$ different variables, which means we at most define $3m$ $True$ variables at the worst case. but the OPT is $m$ variables, which satisfies 3-Approximation. Once the frequency of some variable(s) are greater than others, LP-Rounding will first choose these variables $True$, since each clause just have $3$ variables, it makes 3-Approximation, too.
+        \end{itemize}
+    \end{proof}
 \item
 \color{red}(Bonus)\color{black} Suppose there is a sequence of pearls of different color. Color is denoted as $1-m$ and the total number of pearls is $n$. After you read these information and conduct some pre-processing, you need to face lots of of queries.\par
 A query gives two positions $1\leq l\leq r \leq n$, and ask whether there exists a color, that at least half of pearls in $[l,r]$ is such color.\par
@@ -79,9 +119,23 @@ Assume that no operation will involve a new color. You may modify your algorithm
 \color{blue}(Hint: Consider Balanced Binary Tree. Given an element $e$, they can find whether $e$ exists in tree, and how many elements in tree are smaller than $e$, in $O(logn)$ time.)\color{black}
 \end{enumerate} 
 
-%    \begin{proof}
-%        Uncomment this block to write your proof.
-%    \end{proof}
+    \begin{proof}\item
+        \renewcommand{\qedsymbol}{}
+        \begin{itemize}
+            \item [(a)] We design an algorithm by a random prime number sequence $P$(for example, $P$ can be $\{2,3,5,7,11,\cdots \}$, which must contains $m$ elements). Then we can achieve this algorithm by steps below:\\ \\
+            (1) \textbf{Pre-Processing:} Execute sequential scanning the pearls from $l$ to $r$, once we scan a new color, we define it as a new prime number(for example, if we first scan blue pearl in location $l$, wedefine it as first prime in $P$, it says $2$). Define a hush-check $S$, initiated with $S=1$, once we scan a pearl, we multiply the corresponding prime number to S, and finally store the multiply result in $S$. The complete scan get a $color-P$ relation(store in hush table) and hush-check $S$.\\
+            (2) \textbf{Romdom Algorithm:} We randomly generate a color sequence, which must be corresponding to a prime sequence. For each prime $p_i\in P$, We check the certifier equals to $0$ or not:
+            $${S}\ \%\ {p_i^{(r-l-1)}} $$
+            If the certifier equals to $0$, it means $p_{i}$'s corresponding color is half satisfied, then we can stop the process.\\
+
+            \textbf{Analysis:} In this Algorithm, we use $O(m)$ to store $color-P$ hush table and a $O(1)$ variable $S$ to store hush-check, which means space complexity is $O(m)$, which is better than $O(mn)$. For time complexity, pre-process takes $O(r-l)$ and random check takes $O(2(r-l))$ (because hush check and mod operation takes 1 each). it means the Time complexity is $O(r-l)$, which is better than $O(n)$.
+            \item [(b)] We can use the algorithm in part$(a)$ to complete the operations required. Now that we get the hush-check $S$ and a $color-P$ hush table of origin sequence, we can achieve the operation below: 
+            \\ \textbf{Append(c)}: Multiply c's corresponding prime number $p_{i}$ by $color-P$ hush table with $O(1)$ time. Then multiply $p_{i}$ to $S$. total operation take $O(1)$.
+            \\ \textbf{Erase}: We assume the last pearl with color c, we let $S$ devide c's corresponding prime number $p$ by $color-P$ hush table with $O(1)$ time.
+            \\ \textbf{Colouration(p,c)}: We check position p's color and let its corresponding prime $p$ is devided by $S$, then let $S$ multiply c's correspond prime $p$. Since we should check position $p$'s color, it takes $O(n)$ time totally.
+            \\ \textbf{Query(c)}: it have the same operation as part(a).
+        \end{itemize}
+    \end{proof}
 
 
     
